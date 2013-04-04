@@ -1,0 +1,22 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+my $pbsDesc=<<PBS;
+#!/bin/bash
+#Beginning of PBS bash script
+#PBS -M jiang.river.li\@vanderbilt.edu
+#Status/Progress Emails to be sent
+#PBS -m bae
+#Email generated at b)eginning, a)bort, and e)nd of jobs
+#PBS -l mem=10000mb
+#Total job memory required (specify how many megabytes)
+#PBS -l walltime=28:00:00
+#You must specify Wall Clock time (hh:mm:ss) [Maximum allowed 30 days = 720:00:00]
+#PBS -q batch
+PBS
+
+open(IN,">pbsDesc.txt") or die $!;
+print IN $pbsDesc;
+close IN;
+

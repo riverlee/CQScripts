@@ -1,0 +1,10 @@
+#!/bin/bash
+s=$USER
+if [ $1 ]
+then
+  s=$1
+fi
+qstat |grep $s |sed '2,$p'|cut -d"." -f1|xargs -I{} qstat -f {}
+
+
+#echo $s

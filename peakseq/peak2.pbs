@@ -1,0 +1,49 @@
+#!/bin/bash
+#Beginning of PBS bash script
+#PBS -M jiang.river.li@vanderbilt.edu
+#Status/Progress Emails to be sent
+#PBS -m bae
+#Email generated at b)eginning, a)bort, and e)nd of jobs
+#PBS -l mem=10000mb
+#Total job memory required (specify how many megabytes)
+#PBS -l walltime=28:00:00
+#You must specify Wall Clock time (hh:mm:ss) [Maximum allowed 30 days = 720:00:00]
+#PBS -q batch
+#PBS -N peak2 
+#PBS -o //gpfs20/data/cqs/lij17/1668/peakseq/1as_background/peak2/peak2.out 
+#PBS -e //gpfs20/data/cqs/lij17/1668/peakseq/1as_background/peak2/peak2.err 
+cd /gpfs20/data/cqs/lij17/1668/peakseq/1as_background/peak2 
+echo Doing chrI @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrI.txt 
+echo Doing chrII @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrII.txt 
+echo Doing chrIII @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrIII.txt 
+echo Doing chrIV @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrIV.txt 
+echo Doing chrIX @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrIX.txt 
+echo Doing chrV @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrV.txt 
+echo Doing chrVI @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrVI.txt 
+echo Doing chrVII @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrVII.txt 
+echo Doing chrVIII @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrVIII.txt 
+echo Doing chrX @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrX.txt 
+echo Doing chrXI @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrXI.txt 
+echo Doing chrXII @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrXII.txt 
+echo Doing chrXIII @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrXIII.txt 
+echo Doing chrXIV @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrXIV.txt 
+echo Doing chrXV @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrXV.txt 
+echo Doing chrXVI @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrXVI.txt 
+echo Doing chrM @ `date` 
+/data/cqs/bin/web_release/bin/PeakSeq -peak_select config.chrM.txt 

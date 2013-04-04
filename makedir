@@ -1,0 +1,135 @@
+#!/usr/bin/perl
+#################################
+#Author: Jiang Li
+#Email: riverlee2008@gmail.com
+#Created Time:Fri 19 Aug 2011 09:21:25 PM CDT
+################################
+#This code is used to create a serial folders:
+#script
+#pbs
+#running
+#result
+##############################
+use strict;
+use warnings;
+
+my $dir = $ARGV[0];
+
+die "perl $0 workdir\n" unless($dir);
+
+die "$dir is not exists\n" unless (-d $dir);
+
+chdir ($dir) or die $!;
+
+#create four folders
+for my  $subdir ("script","pbs","running","result"){
+	mkdir $subdir or die $!;
+}
+
+#create the README.TXT file
+open(R,">README.TXT") or die $!;
+my $header=<<HEADER;
+#############################################
+#Author:  Jiang Li
+#Email:   riverlee2008\@gmail.com
+#Title:   Bioinformatics System Engineer I
+#Created: ?
+#Vanderbilt Center for Quantitative Sciences#
+#############################################
+HEADER
+
+my $time = scalar(localtime);
+
+$header=~s/\?/$time/g;
+
+print R $header;
+
+close R;
+
+#GO TO SCRIPT FOLDER AND CREATE A TEMPLEATE FOR .PL CODE
+chdir("${dir}/script") or die $!;
+
+open(PERL,">run.pl") or die $!;
+
+print PERL "#!/usr/bin/perl\n";
+print PERL $header;
+
+my $s="";
+while(<DATA>){
+ $s.=$_;
+}
+
+print PERL $s;
+close PERL;
+
+
+__DATA__
+use strict;
+use warnings;
+
+my $rawdataDir='/data/cqs/guoy1/1365/rawdata/';
+my $pathfile='/data/cqs/bin/path.txt';
+my $bowtieindex='/data/cqs/guoy1/reference/hg19/bowtie_index/hg19';
+my $outputdir = '/data/cqs/guoy1/1365/tophat/';
+my $currentdir = `pwd`;
+$currentdir =~s/\r|\n//g;
+$currentdir=~s/script$//g;
+my $pbsdir="${currentdir}pbs";
+my $resultdir="${currentdir}result";
+my $runningdir="${currentdir}running";
+
+#read pbs desc
+my $pbsDesc=<<PBS;
+#!/bin/bash
+#Beginning of PBS bash script
+#PBS -M jiang.river.li\@vanderbilt.edu
+#Status/Progress Emails to be sent
+#PBS -m bae
+#Email generated at b)eginning, a)bort, and e)nd of jobs
+#PBS -l mem=4000mb
+#Total job memory required (specify how many megabytes)
+#PBS -l walltime=20:00:00
+#You must specify Wall Clock time (hh:mm:ss) [Maximum allowed 30 days = 720:00:00]
+#PBS -q batch
+
+PBS
+
+#read raw data and create pbs file and submit the job for each data
+opendir(DIR,$rawdataDir) or die $!;
+my @file = grep {$_ ne '.' && $_ ne '..'} readdir DIR;
+close DIR;
+
+foreach my $f (@file){
+  #check only those in %wanted
+  my $name = "";
+  if($f=~/(^\d+)/){
+    $name = $1; 
+  }else{
+    next;
+  }
+
+  print "[",scalar localtime,"] Reading file: $f ...\n";
+ 
+  #genereate pbs file and then submit
+  print "[",scalar localtime,"] generate pbs file:...\n\n";
+ 
+  my $pbsfile = "${pbsdir}/${name}.pbs";
+  open(OUT,">${pbsfile}") or die $!;
+  print OUT $pbsDesc;
+  print OUT "#PBS -N $name\n";
+  print OUT "#PBS -o ${runningdir}/${name}.out\n";
+  print OUT "#PBS -e ${runningdir}/${name}.err\n";
+ 
+  #running command
+  my $command=<<COMMAND;
+
+COMMAND
+
+  print OUT $command;
+ 
+  close OUT;
+  #submit job
+  `qsub $pbsfile`;
+}
+
+

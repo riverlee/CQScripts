@@ -1,0 +1,39 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+open(IN,"pbsnodes|") or die $!;
+my $s="";
+while(<IN>){
+    $s.=$_;
+}
+close IN;
+
+my @nodes;
+while($s=~/^vmp\d+\n(^ {5}\S.*\n)*/gm){
+    push @nodes,$&;
+    #print $&, "\n===========================\n\n";
+}
+
+printf "%8s%20s%4s%12s%12s%12s\n","node","state","np","physmem","availmem","totmem";
+print '=' x 100,"\n";
+foreach my $n (@nodes){
+    my $node="";
+    my $state="";
+    my $np="";
+    my $physmem="";
+    my $availmem="";
+    my $totmem="";
+    
+    if($n=~/(vmp\d+)/){
+        $node=$1;
+    }
+
+    $state=$1 if ($n=~/state = (.*?)\n/);
+    $np=$1 if ($n=~/np = (\d+)\n/);
+    $physmem=$1 if ($n=~/physmem=(\d+)/);  #in kb
+    $availmem=$1 if ($n=~/availmem=(\d+)/);
+    $totmem=$1 if ($n=~/totmem=(\d+)/);
+    
+    printf "%8s%20s%4s%12s%12s%12s\n","$node","$state","$np","$physmem","$availmem","$totmem";
+}

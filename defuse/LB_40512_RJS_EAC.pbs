@@ -1,0 +1,16 @@
+#!/bin/bash
+#Beginning of PBS bash script
+#PBS -M jiang.river.li@vanderbilt.edu
+#Status/Progress Emails to be sent
+#PBS -m bae
+#Email generated at b)eginning, a)bort, and e)nd of jobs
+#PBS -l mem=60000mb
+#Total job memory required (specify how many megabytes)
+#PBS -l walltime=200:00:00
+#You must specify Wall Clock time (hh:mm:ss) [Maximum allowed 30 days = 720:00:00]
+#PBS -l nodes=1:ppn=12
+#PBS -q batch
+#PBS -N defuse_LB_40512_RJS_EAC
+cd /gpfs21/scratch/cqs/guoy1/cleveland/fusion/defuse_download3
+source ~/.bashrc
+/data/cqs/bin/defuse-0.5.0//scripts/defuse.pl -c LB_40512_RJS_EAC.config -d /gpfs21/scratch/cqs/guoy1/cleveland/rawdata2/download3 -o LB_40512_RJS_EAC -p 12

@@ -1,0 +1,8 @@
+#!/bin/bash
+s=$USER
+if [ $1 ]
+then
+  s=$1
+fi
+showq|grep $s
+#echo $s

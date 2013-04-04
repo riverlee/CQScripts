@@ -1,0 +1,15 @@
+#!/bin/bash
+#Beginning of PBS bash script
+#PBS -M jiang.river.li@vanderbilt.edu
+#Status/Progress Emails to be sent
+#PBS -m bae
+#Email generated at b)eginning, a)bort, and e)nd of jobs
+#PBS -l mem=30000mb
+#Total job memory required (specify how many megabytes)
+#PBS -l walltime=72:00:00
+#You must specify Wall Clock time (hh:mm:ss) [Maximum allowed 30 days = 720:00:00]
+#PBS -q batch
+#PBS -N FusionHunter_LB_30712_JJK_BE
+source /data/cqs/bin/path.txt 
+cd /gpfs21/scratch/cqs/guoy1/cleveland/fusion/FusionHunter_download4/FusionHunterResult/LB_30712_JJK_BE
+/data/cqs/bin/FusionHunter-v1.4-Linux_x86_64/bin/FusionHunter.pl FusionHunter.cfg 
