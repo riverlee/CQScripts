@@ -1,0 +1,21 @@
+#!/usr/bin/perl
+$a= memoryUsage();
+print $a;
+print "\n\n";
+sub memoryUsage{
+my $pid = $$;
+my $ps_query = `ps -e -o pmem,rss`;
+my @process_info = split ("\n", $ps_query);
+my $memory_usage = '';
+my $memory_usage_p = '';
+for (my $i=1;$i<@process_info;$i++){
+  if ($process_info[$i] =~ /(\S+)\s+(\S+)/){
+		$memory_usage_p += $1;
+		$memory_usage += $2;
+	}
+}
+my $memory_usage_m = sprintf("%.1f", ($memory_usage/1024));
+my $message = "Memory usage: $memory_usage_m Mb ($memory_usage_p%)";
+return($message);
+}
+
